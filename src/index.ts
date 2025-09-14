@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRouter);
-app.use("/file", fileRouter);
+app.use("/file-group", fileRouter);
 
 const startServer = async () => {
   try {

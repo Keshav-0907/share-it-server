@@ -1,6 +1,7 @@
 import User from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { FileGroup } from "../models/fileSchema.js";
 export const createUser = async (req, res) => {
     try {
         const { name, email, password, subscription = "free" } = req.body;
@@ -87,6 +88,20 @@ export const getUser = async (req, res) => {
     catch (error) {
         console.error("Error getting user:", error);
         return res.status(500).json({ message: "Internal server error" });
+    }
+};
+export const getUserFileGroups = async (req, res) => {
+    try {
+        const user = req.user;
+        const fileGroups = await FileGroup.find({ user: user._id }).populate("files");
+        return res.status(200).json({
+            message: "User file groups fetched successfully",
+            fileGroups,
+            success: true
+        });
+    }
+    catch (error) {
+        return res.status(500).json({ message: "Internal server error", success: false });
     }
 };
 //# sourceMappingURL=userControllers.js.map
